@@ -11,7 +11,7 @@ namespace jwt_authentication.Repositories.Services
     {
         private readonly IConfiguration _configuration;
 
-        public JwtService(ApplicationDbContext context, IConfiguration configuration)
+        public JwtService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -27,7 +27,7 @@ namespace jwt_authentication.Repositories.Services
                 var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:Secret"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+                    Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserId.ToString()) }),
                     Expires = DateTime.UtcNow.AddDays(days),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
