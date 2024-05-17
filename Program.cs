@@ -11,14 +11,15 @@ var configuration =
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+// Add db-context to the container
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     x => x.UseNetTopologySuite()));
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Allow CORS
 builder.Services.AddCors(options => options.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
@@ -26,6 +27,7 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(x => x.AllowAnyOrig
 // Add custom services
 builder.Services.AddScoped<IUser, UserService>();
 builder.Services.AddScoped<IProduct, ProductService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 var app = builder.Build();
 
