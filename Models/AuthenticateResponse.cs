@@ -13,7 +13,7 @@ namespace jwt_authentication.Models
 
         public AuthenticateResponse(User user, string token)
         {
-            Id = user.Id;
+            Id = user.UserId;
             FirstName = user.FirstName;
             LastName = user.LastName;
             Username = user.Username;

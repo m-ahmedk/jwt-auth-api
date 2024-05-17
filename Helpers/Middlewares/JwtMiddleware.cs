@@ -21,12 +21,12 @@ namespace jwt_authentication.Middlewares
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
-                await attachUserToContext(context, userService, token);
+                await UserAttachedToContext(context, userService, token);
 
             await _next(context);
         }
 
-        private async Task attachUserToContext(HttpContext context, UserService userService, string token)
+        private async Task UserAttachedToContext(HttpContext context, UserService userService, string token)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace jwt_authentication.Middlewares
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    // set clock skew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    // Clock skew set to 0 to avoid delay, and it expires exactly at token expiration time
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 
@@ -50,8 +50,8 @@ namespace jwt_authentication.Middlewares
             }
             catch
             {
-                //Do nothing if JWT validation fails
-                // user is not attached to context so the request won't have access to secure routes
+                // On failing JWT validation, do nothing
+                // Access to secure routes denied, as User is not attached to context
             }
         }
     }
