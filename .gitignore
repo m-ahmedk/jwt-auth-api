@@ -3,6 +3,7 @@ packages/**
 */obj/**
 */bin/**
 */.vs
+appsettings.Development.json
 
 #Junk Files
 *.DS_Store
