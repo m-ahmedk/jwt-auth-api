@@ -7,9 +7,9 @@ namespace jwt_authentication.Repositories.Services
     public class UserService : IUser
     {
         private readonly ApplicationDbContext _context;
-        private readonly JwtService _jwtService;
+        private readonly IJwtService _jwtService;
 
-        public UserService(ApplicationDbContext context, JwtService jwtService)
+        public UserService(ApplicationDbContext context, IJwtService jwtService)
         {
             _context = context;
             _jwtService = jwtService;
