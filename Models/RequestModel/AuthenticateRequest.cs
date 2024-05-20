@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel;
 
-namespace jwt_authentication.Models
+namespace jwt_authentication.Models.RequestModel
 {
     public class AuthenticateRequest
     {
-        [DefaultValue("System")]
         public required string Username { get; set; }
 
-        [DefaultValue("System")]
         public required string Password { get; set; }
     }
 }

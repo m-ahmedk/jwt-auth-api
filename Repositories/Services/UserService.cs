@@ -1,4 +1,6 @@
 ﻿using jwt_authentication.Models;
+using jwt_authentication.Models.RequestModel;
+using jwt_authentication.Models.ResponseModel;
 using jwt_authentication.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

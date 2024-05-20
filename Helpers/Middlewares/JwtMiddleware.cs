@@ -1,4 +1,5 @@
-﻿using jwt_authentication.Repositories.Services;
+﻿using jwt_authentication.Repositories.Interfaces;
+using jwt_authentication.Repositories.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,7 +17,7 @@ namespace jwt_authentication.Middlewares
             _next = next;
             _configuration = configuration;
         }
-        public async Task Invoke(HttpContext context, UserService userService)
+        public async Task Invoke(HttpContext context, IUserService userService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
@@ -26,7 +27,7 @@ namespace jwt_authentication.Middlewares
             await _next(context);
         }
 
-        private async Task UserAttachedToContext(HttpContext context, UserService userService, string token)
+        private async Task UserAttachedToContext(HttpContext context, IUserService userService, string token)
         {
             try
             {
@@ -36,8 +37,8 @@ namespace jwt_authentication.Middlewares
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = false, // or "https://github.com/m-ahmedk",
+                    ValidateAudience = false, // Or Audience = "https://github.com/m-ahmedk",
                     // Clock skew set to 0 to avoid delay, and it expires exactly at token expiration time
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
