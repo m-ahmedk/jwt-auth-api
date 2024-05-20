@@ -25,8 +25,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
 // Add custom services
-builder.Services.AddScoped<IUser, UserService>();
-builder.Services.AddScoped<IProduct, ProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 var app = builder.Build();

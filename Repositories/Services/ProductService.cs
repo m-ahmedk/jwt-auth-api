@@ -1,10 +1,12 @@
-﻿using jwt_authentication.Models;
+﻿using jwt_authentication.Helpers.Filters;
+using jwt_authentication.Models;
 using jwt_authentication.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Eventing.Reader;
 
 namespace jwt_authentication.Repositories.Services
 {
-    public class ProductService : IProduct
+    public class ProductService : IProductService
     {
 
         private readonly ApplicationDbContext _context;
@@ -41,9 +43,9 @@ namespace jwt_authentication.Repositories.Services
             return isSuccess;            
         }
 
-        public async Task<IEnumerable<Product>> GetAll()
+        public async Task<IEnumerable<Product>> GetAll(bool? inStock)
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Where(x => x.isInStock == inStock).ToListAsync();
         }
 
         public async Task<Product?> GetById(int id)

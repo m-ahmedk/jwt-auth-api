@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace jwt_authentication.Repositories.Services
 {
-    public class UserService : IUser
+    public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
         private readonly IJwtService _jwtService;
