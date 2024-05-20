@@ -1,6 +1,6 @@
 ﻿using jwt_authentication.Repositories.Interfaces;
 
-namespace jwt_authentication.Models
+namespace jwt_authentication.Models.ResponseModel
 {
     public class AuthenticateResponse
     {
