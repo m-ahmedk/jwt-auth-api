@@ -2,7 +2,7 @@
 
 namespace jwt_authentication.Repositories.Interfaces
 {
-    public interface IUser
+    public interface IUserService
     {
         Task<AuthenticateResponse?> Authenticate(AuthenticateRequest model);
         Task<IEnumerable<User>> GetAll();
