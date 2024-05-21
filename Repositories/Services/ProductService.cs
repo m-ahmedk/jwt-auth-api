@@ -18,13 +18,8 @@ namespace jwt_authentication.Repositories.Services
 
         public async Task<Product?> AddProduct(Product productObj)
         {
-            bool isSuccess = false;
-
-            if (productObj.ProductId > 0)
-            {
-                await _context.Products.AddAsync(productObj);
-                isSuccess = await _context.SaveChangesAsync() > 0;
-            }
+            await _context.Products.AddAsync(productObj);
+            bool isSuccess = await _context.SaveChangesAsync() > 0;
 
             return isSuccess ? productObj : null;
         }

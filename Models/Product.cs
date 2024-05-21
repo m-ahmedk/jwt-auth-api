@@ -11,8 +11,8 @@ namespace jwt_authentication.Models
         [SwaggerSchema(ReadOnly = true)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductId { get; set; }
-        public required string ProductName { get; set; }
-        public required double Price { get; set; }
+        public string ProductName { get; set; }
+        public double Price { get; set; }
         public string Description { get; set; }
         public bool isInStock { get; set; } = true;
     }
