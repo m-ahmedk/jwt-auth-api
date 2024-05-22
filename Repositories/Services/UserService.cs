@@ -1,4 +1,5 @@
 ﻿using jwt_authentication.Models;
+using jwt_authentication.Models.DTOs;
 using jwt_authentication.Models.RequestModel;
 using jwt_authentication.Models.ResponseModel;
 using jwt_authentication.Repositories.Interfaces;
@@ -17,27 +18,35 @@ namespace jwt_authentication.Repositories.Services
             _jwtService = jwtService;
         }
 
-        public async Task<User?> AddAndUpdateUser(User userObj)
+        public async Task<User?> AddUser(User user)
         {
             bool isSuccess = false;
-            if (userObj.UserId > 0)
+
+            await _context.Users.AddAsync(user);
+            isSuccess = await _context.SaveChangesAsync() > 0;
+
+            return isSuccess ? user : null;
+        }
+
+        public async Task<User?> UpdateUser(int id, UserDto userdto)
+        {
+            bool isSuccess = false;
+
+            var user = await GetById(id);
+
+            if (user != null)
             {
-                var obj = await _context.Users.FirstOrDefaultAsync(c => c.UserId == userObj.UserId);
-                if (obj != null)
-                {
-                    obj.FirstName = userObj.FirstName;
-                    obj.LastName = userObj.LastName;
-                    _context.Users.Update(obj);
-                    isSuccess = await _context.SaveChangesAsync() > 0;
-                }
-            }
-            else
-            {
-                await _context.Users.AddAsync(userObj);
+                _ = !string.IsNullOrEmpty(userdto.FirstName) ?
+                    user.FirstName = userdto.FirstName : null;
+
+                _ = !string.IsNullOrEmpty(userdto.LastName) ?
+                    user.LastName = userdto.LastName : null;
+
+                _context.Users.Update(user);
                 isSuccess = await _context.SaveChangesAsync() > 0;
             }
 
-            return isSuccess ? userObj : null;
+            return isSuccess ? user : null;
         }
 
         public async Task<AuthenticateResponse?> Authenticate(AuthenticateRequest model)
@@ -60,7 +69,9 @@ namespace jwt_authentication.Repositories.Services
 
         public async Task<User?> GetById(int id)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.UserId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == id);
+            return user;
         }
+
     }
 }

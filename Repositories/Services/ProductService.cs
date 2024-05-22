@@ -1,5 +1,7 @@
 ﻿using jwt_authentication.Helpers.Filters;
 using jwt_authentication.Models;
+using jwt_authentication.Models.DTOs;
+using jwt_authentication.Models.RequestModel;
 using jwt_authentication.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Eventing.Reader;
@@ -16,12 +18,12 @@ namespace jwt_authentication.Repositories.Services
             _context = context;
         }
 
-        public async Task<Product?> AddProduct(Product productObj)
+        public async Task<Product?> AddProduct(Product product)
         {
-            await _context.Products.AddAsync(productObj);
+            await _context.Products.AddAsync(product);
             bool isSuccess = await _context.SaveChangesAsync() > 0;
 
-            return isSuccess ? productObj : null;
+            return isSuccess ? product : null;
         }
 
         public async Task<bool> DeleteProduct(int id)
@@ -45,26 +47,32 @@ namespace jwt_authentication.Repositories.Services
 
         public async Task<Product?> GetById(int id)
         {
-            Product? _productObj = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == id);
-            return _productObj;
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == id);
+            return product;
         }
 
-        public async Task<Product?> UpdateProduct(int id, Product productObj)
+        public async Task<Product?> UpdateProduct(int id, ProductDto productdto)
         {
             bool isSuccess = false;
 
-            var _productObj = await GetById(id);
+            var product = await GetById(id);
 
-            if (_productObj != null) {
-                _productObj.Description = productObj.Description;
-                _productObj.Price = productObj.Price;
-                _productObj.isInStock = productObj.isInStock;
+            if (product != null) {
 
-                _context.Products.Update(_productObj);
+                _ = !string.IsNullOrEmpty(productdto.Description) ?
+                    product.Description = productdto.Description : null;
+
+                _ = productdto.Price.HasValue ?
+                    product.Price = productdto.Price : null;
+                
+                _ = productdto.isInStock.HasValue ?
+                    product.isInStock = productdto.isInStock : null;
+
+                _context.Products.Update(product);
                 isSuccess = await _context.SaveChangesAsync() > 0;
             }
 
-            return isSuccess ? _productObj : null;
+            return isSuccess ? product : null;
         }
     }
 }

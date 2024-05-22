@@ -3,11 +3,9 @@ using jwt_authentication.Models;
 using jwt_authentication.Repositories.Interfaces;
 using jwt_authentication.Repositories.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration =
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -67,7 +65,6 @@ builder.Services.AddSwaggerGen(options =>
                                 }
                             },
                             new string[] {}
-
                     }
                 });
 
