@@ -1,4 +1,5 @@
 ﻿using jwt_authentication.Models;
+using jwt_authentication.Models.DTOs;
 
 namespace jwt_authentication.Repositories.Interfaces
 {
@@ -6,8 +7,8 @@ namespace jwt_authentication.Repositories.Interfaces
     {
         Task<IEnumerable<Product>> GetAll(bool? inStock);
         Task<Product?> GetById(int id);
-        Task<Product?> AddProduct(Product productObj);
-        Task<Product?> UpdateProduct(int id, Product productObj);
+        Task<Product?> AddProduct(Product product);
+        Task<Product?> UpdateProduct(int id, ProductDto productdto);
         Task<bool> DeleteProduct(int id);
     }
 }

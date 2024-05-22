@@ -17,6 +17,7 @@ namespace jwt_authentication.Middlewares
             _next = next;
             _configuration = configuration;
         }
+
         public async Task Invoke(HttpContext context, IUserService userService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
@@ -46,7 +47,7 @@ namespace jwt_authentication.Middlewares
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-                //Attach user to context on successful JWT validation
+                // Attach user to context on successful JWT validation
                 context.Items["User"] = await userService.GetById(userId);
             }
             catch

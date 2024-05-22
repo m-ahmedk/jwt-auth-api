@@ -12,8 +12,8 @@ namespace jwt_authentication.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductId { get; set; }
         public string ProductName { get; set; }
-        public double Price { get; set; }
-        public string Description { get; set; }
-        public bool isInStock { get; set; } = true;
+        public double? Price { get; set; }
+        public string? Description { get; set; }
+        public bool? isInStock { get; set; } = true;
     }
 }

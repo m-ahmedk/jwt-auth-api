@@ -1,5 +1,6 @@
 ﻿using jwt_authentication.Helpers.Filters;
 using jwt_authentication.Models;
+using jwt_authentication.Models.DTOs;
 using jwt_authentication.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,11 +57,11 @@ namespace jwt_authentication.Controllers
 
         [HttpPatch]
         [Route("{id}")]
-        public async Task<IActionResult> Patch([FromRoute] int id, [FromBody] Product product)
+        public async Task<IActionResult> Patch([FromRoute] int id, [FromBody] ProductDto productdto)
         {
-            var productObj = await _productService.UpdateProduct(id, product);
+            var product = await _productService.UpdateProduct(id, productdto);
 
-            if (productObj == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -68,11 +69,12 @@ namespace jwt_authentication.Controllers
             return Ok(new
             {
                 message = "The product has been updated successfully!",
-                product = productObj
+                product
             });
         }
 
         [HttpDelete]
+        [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if(!await _productService.DeleteProduct(id))
