@@ -14,6 +14,17 @@ namespace jwt_authentication.Models
         {
             modelBuilder.Entity<Product>().HasKey(x => x.ProductId);
             modelBuilder.Entity<User>().HasKey(x => x.UserId);
+            modelBuilder.Entity<User>().HasData(
+               new User
+               {
+                   UserId = 1, // Explicitly set a unique UserId, HasData requires all properties
+                   FirstName = "Ahmed",
+                   LastName = "Khan",
+                   Username = "Ahmed",
+                   Password = "qwerty12345",
+                   isActive = true,
+               }
+           );
 
         }
     }
