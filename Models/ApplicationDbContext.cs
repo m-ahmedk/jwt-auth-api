@@ -6,6 +6,7 @@ namespace jwt_authentication.Models
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+            // The base constructor handles initializing the DbContext with the provided options.
         }
 
         public DbSet<Product> Products { get; set; }
